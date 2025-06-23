@@ -44,13 +44,8 @@ def predict():
     phishing_prob = float(prediction[0][0]) * 100
     legitimate_prob = 100 - phishing_prob
 
-    # Determine color and classification based on probabilities
-    CONFIDENCE_THRESHOLD = 65.0
     
-    if legitimate_prob < CONFIDENCE_THRESHOLD and phishing_prob < CONFIDENCE_THRESHOLD:
-        result_class = "alert-warning"
-        classification = "SUSPICIOUS"
-    elif legitimate_prob > phishing_prob:
+    if legitimate_prob > phishing_prob:
         result_class = "alert-success"
         classification = "LEGITIMATE"
     else:
