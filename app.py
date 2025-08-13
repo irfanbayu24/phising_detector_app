@@ -42,17 +42,12 @@ def predict():
     # Prediksi dengan model
     prediction = model.predict([tokens['input_ids'], tokens['attention_mask']])
     phishing_prob = float(prediction[0][0]) * 100
-    legitimate_prob = 100 - phishing_prob
+    safe_prob = 100 - phishing_prob
 
-    # Determine color and classification based on probabilities
-    CONFIDENCE_THRESHOLD = 65.0
     
-    if legitimate_prob < CONFIDENCE_THRESHOLD and phishing_prob < CONFIDENCE_THRESHOLD:
-        result_class = "alert-warning"
-        classification = "SUSPICIOUS"
-    elif legitimate_prob > phishing_prob:
+    if safe_prob > phishing_prob:
         result_class = "alert-success"
-        classification = "LEGITIMATE"
+        classification = "SAFE"
     else:
         result_class = "alert-danger"
         classification = "PHISHING"
@@ -61,7 +56,7 @@ def predict():
                          url=url, 
                          result=classification, 
                          result_class=result_class,
-                         legitimate_prob=legitimate_prob,
+                         safe_prob=safe_prob,
                          phishing_prob=phishing_prob)
 
 if __name__ == '__main__':
